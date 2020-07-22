@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:start/view/transactions_list.dart';
+import 'package:start/view/transactions_form.dart';
 import 'package:start/provider/transactions.dart';
+import 'package:start/routes/app_routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +25,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: TransactionList(),
+        routes: {
+          AppRoutes.HOME: (_) => TransactionList(),
+          AppRoutes.TRANSACTION_FORM: (_) => TransactionForm(),
+        },
       ),
     );
   }

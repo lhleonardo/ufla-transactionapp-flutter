@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:start/components/transaction_tile.dart';
 import 'package:start/provider/transactions.dart';
+import 'package:start/routes/app_routes.dart';
 
 class TransactionList extends StatelessWidget {
   @override
@@ -18,7 +19,11 @@ class TransactionList extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            AppRoutes.TRANSACTION_FORM,
+          );
+        },
         child: Icon(
           Icons.add,
         ),
