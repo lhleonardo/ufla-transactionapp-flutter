@@ -11,6 +11,8 @@ class Transaction {
   final Account to;
   final double value;
 
+  final DateTime date;
+
   const Transaction({
     this.id,
     this.description,
@@ -18,5 +20,6 @@ class Transaction {
     @required this.from,
     @required this.to,
     @required this.value,
+    this.date,
   });
 }
