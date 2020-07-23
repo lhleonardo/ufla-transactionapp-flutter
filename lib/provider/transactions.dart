@@ -34,6 +34,7 @@ class Transactions with ChangeNotifier {
           from: transaction.from,
           to: transaction.to,
           value: transaction.value,
+          date: transaction.date,
           id: id,
           description: transaction.description,
           type: transaction.type,

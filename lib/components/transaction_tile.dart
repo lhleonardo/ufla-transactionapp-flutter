@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:start/models/transaction.dart';
+import 'package:start/routes/app_routes.dart';
 
 class TransactionTile extends StatelessWidget {
   final Transaction transaction;
@@ -32,19 +33,21 @@ class TransactionTile extends StatelessWidget {
         ),
       ),
       trailing: Container(
-        width: 100,
+        width: 50,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             IconButton(
-              color: Colors.brown,
-              icon: Icon(Icons.mode_edit),
-              onPressed: () {},
+              color: Color.fromRGBO(84, 88, 94, 1),
+              icon: Icon(Icons.chevron_right),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  AppRoutes.TRANSACTION_FORM,
+                  arguments: transaction,
+                );
+              },
             ),
-            IconButton(
-              color: Colors.red,
-              icon: Icon(Icons.delete),
-              onPressed: () {},
-            )
           ],
         ),
       ),

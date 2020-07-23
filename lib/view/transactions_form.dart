@@ -17,6 +17,10 @@ class _TransactionFormState extends State<TransactionForm> {
 
   final Map<String, Object> _values = {};
 
+  final _dateController = TextEditingController();
+
+  Transaction _openTransaction;
+
   String _textEmptyValidator(String newValue) {
     if (newValue == null || newValue.isEmpty || newValue.trim().isEmpty) {
       return "Preenchimento obrigatório";
@@ -52,21 +56,77 @@ class _TransactionFormState extends State<TransactionForm> {
     _values[property] = value;
   }
 
-  void _prepareFormData(Transaction transaction) {}
+  void _prepareFormData(Transaction transaction) {
+    if (transaction != null) {
+      _openTransaction = transaction;
+      _values["id"] = transaction.id;
+
+      _values["type"] = transaction.type;
+      setState(() {
+        _selectedType = transaction.type;
+      });
+
+      _values["value"] = transaction.value == null ? "" : transaction.value;
+
+      _values["date"] = transaction.date;
+      _dateController.text = _formatter.format(transaction.date);
+
+      _values["description"] = transaction.description;
+
+      _values["from.agency"] = transaction.from.agency;
+      _values["from.account"] = transaction.from.account;
+      _values["from.owner"] = transaction.from.owner;
+
+      _values["to.agency"] = transaction.to.agency;
+      _values["to.account"] = transaction.to.account;
+      _values["to.owner"] = transaction.to.owner;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var dateController = TextEditingController();
+    final Transaction transaction = ModalRoute.of(context).settings.arguments;
+    _prepareFormData(transaction);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Formulário'),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Colors.redAccent,
-              ),
-              onPressed: () {}),
+          Visibility(
+            visible: _values['id'] != null,
+            child: IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => AlertDialog(
+                      title: Text("Confirmação"),
+                      content: Text(
+                          "Essa ação não pode ser desfeita. Deseja realmente excluir a transação?"),
+                      elevation: 24.0,
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Provider.of<Transactions>(context, listen: false)
+                                .remove(_openTransaction);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Sim"),
+                        ),
+                        FlatButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text("Não"),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          ),
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
@@ -160,6 +220,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: TextFormField(
+                    initialValue: _values['description'],
                     onSaved: (newValue) =>
                         _saveOnInstance('description', newValue),
                     validator: _textLimitedValidator,
@@ -170,6 +231,9 @@ class _TransactionFormState extends State<TransactionForm> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: TextFormField(
+                    initialValue: _values['value'] == null
+                        ? ""
+                        : _values['value'].toString(),
                     onSaved: (newValue) =>
                         _saveOnInstance('value', double.parse(newValue)),
                     validator: _textNumberValidator,
@@ -180,15 +244,15 @@ class _TransactionFormState extends State<TransactionForm> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                   child: TextFormField(
-                    controller: dateController,
+                    controller: _dateController,
                     onSaved: (newValue) =>
                         _saveOnInstance('date', _formatter.parse(newValue)),
                     validator: _textEmptyValidator,
                     readOnly: true,
                     onTap: () {
-                      var currentDate = dateController.text != null &&
-                              dateController.text.isNotEmpty
-                          ? _formatter.parse(dateController.text)
+                      var currentDate = _dateController.text != null &&
+                              _dateController.text.isNotEmpty
+                          ? _formatter.parse(_dateController.text)
                           : DateTime.now();
                       var result = showDatePicker(
                         context: context,
@@ -198,7 +262,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       );
 
                       result.then((value) =>
-                          dateController.text = _formatter.format(value));
+                          _dateController.text = _formatter.format(value));
                     },
                     decoration: InputDecoration(
                       hintText: 'Data da operação',
@@ -225,6 +289,7 @@ class _TransactionFormState extends State<TransactionForm> {
                   onChanged: (String value) {
                     setState(() {
                       _selectedType = value;
+                      print(_selectedType + ' ' + value);
                     });
                   },
                 ),
@@ -237,6 +302,7 @@ class _TransactionFormState extends State<TransactionForm> {
                   onChanged: (String value) {
                     setState(() {
                       _selectedType = value;
+                      print(_selectedType + ' ' + value);
                     });
                   },
                 ),
@@ -260,6 +326,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                             child: TextFormField(
+                              initialValue: _values['from.agency'],
                               validator: _textEmptyValidator,
                               onSaved: (newValue) =>
                                   _saveOnInstance('from.agency', newValue),
@@ -274,6 +341,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                             child: TextFormField(
+                              initialValue: _values['from.account'],
                               validator: _textEmptyValidator,
                               onSaved: (newValue) =>
                                   _saveOnInstance('from.account', newValue),
@@ -290,6 +358,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                       child: TextFormField(
                         validator: _textLimitedValidator,
+                        initialValue: _values['from.owner'],
                         onSaved: (newValue) =>
                             _saveOnInstance('from.owner', newValue),
                         decoration: InputDecoration(
@@ -319,6 +388,7 @@ class _TransactionFormState extends State<TransactionForm> {
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                             child: TextFormField(
+                              initialValue: _values['to.agency'],
                               validator: _textLimitedValidator,
                               onSaved: (newValue) =>
                                   _saveOnInstance('to.agency', newValue),
@@ -335,6 +405,7 @@ class _TransactionFormState extends State<TransactionForm> {
                             child: TextFormField(
                               keyboardType: TextInputType.number,
                               validator: _textLimitedValidator,
+                              initialValue: _values['to.account'],
                               onSaved: (newValue) =>
                                   _saveOnInstance('to.account', newValue),
                               decoration: InputDecoration(
@@ -349,6 +420,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                       child: TextFormField(
                         validator: _textLimitedValidator,
+                        initialValue: _values['to.owner'],
                         onSaved: (newValue) =>
                             _saveOnInstance('to.owner', newValue),
                         decoration: InputDecoration(
