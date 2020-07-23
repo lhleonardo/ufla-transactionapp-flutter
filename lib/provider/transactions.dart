@@ -24,9 +24,7 @@ class Transactions with ChangeNotifier {
 
   void put(Transaction transaction) {
     if (transaction == null) return;
-    if (transaction.id != null &&
-        transaction.id.isNotEmpty &&
-        !_items.containsKey(transaction.id)) {
+    if (transaction.id == null) {
       // os identificadores de transações são UUIDs
       final id = Uuid().v4();
 
