@@ -84,13 +84,19 @@ class _TransactionFormState extends State<TransactionForm> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final Transaction transaction = ModalRoute.of(context).settings.arguments;
     _prepareFormData(transaction);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário'),
+        title: _openTransaction == null
+            ? Text('Formulário')
+            : Text('Editar Informações'),
         actions: <Widget>[
           Visibility(
             visible: _values['id'] != null,
