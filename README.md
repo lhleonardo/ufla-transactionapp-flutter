@@ -1,16 +1,12 @@
-# start
+# Transactions
 
-A new Flutter project.
+Um aplicativo para gerenciamento de transações financeiras simples.
 
-## Getting Started
+## Escopo
 
-This project is a starting point for a Flutter application.
+Desenvolvido para o REO 4 da disciplina de Desenvolvimento de Aplicativos Móveis, ministrada pelo Prof. Dr. Joaquim Quintêiro Uchôa [@joukim](https://twitter.com/joukim)
 
-A few resources to get you started if this is your first Flutter project:
+## Autor
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ | [<img src="https://avatars0.githubusercontent.com/u/11544276?v=4&s=450" width=115><br><sub>@lhleonardo</sub>](https://github.com/lhleonardo) <br><sub>Leonardo Braz</sub>|
+| :---: |
