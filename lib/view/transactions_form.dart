@@ -117,20 +117,23 @@ class _TransactionFormState extends State<TransactionForm> {
                       actions: <Widget>[
                         FlatButton(
                           onPressed: () {
-                            Provider.of<Transactions>(context, listen: false)
-                                .remove(_openTransaction);
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop(true);
                           },
                           child: Text("Sim"),
                         ),
                         FlatButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () => Navigator.of(context).pop(false),
                           child: Text("Não"),
                         )
                       ],
                     ),
-                  );
+                  ).then((confirmation) {
+                    if (confirmation == true) {
+                      Provider.of<Transactions>(context, listen: false)
+                          .remove(_openTransaction);
+                      Navigator.of(context).pop();
+                    }
+                  });
                 }),
           ),
           IconButton(

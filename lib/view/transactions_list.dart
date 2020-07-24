@@ -8,16 +8,24 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Transactions transactions = Provider.of(context);
+    final bodyElement = transactions.count == 0
+        ? Center(
+            child: Text(
+              "Nenhuma transação cadastrada.\nClique no botão abaixo para adicionar",
+              textAlign: TextAlign.center,
+            ),
+          )
+        : ListView.builder(
+            itemCount: transactions.count,
+            itemBuilder: (ctx, i) => TransactionTile(
+              transactions.byIndex(i),
+            ),
+          );
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de transações'),
       ),
-      body: ListView.builder(
-        itemCount: transactions.count,
-        itemBuilder: (ctx, i) => TransactionTile(
-          transactions.byIndex(i),
-        ),
-      ),
+      body: bodyElement,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splashscreen/splashscreen.dart';
+import 'package:start/view/splash_screen.dart';
 import 'package:start/view/transactions_list.dart';
 import 'package:start/view/transactions_form.dart';
 import 'package:start/provider/transactions.dart';
@@ -22,13 +24,14 @@ class MyApp extends StatelessWidget {
         title: 'Comprovantes',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: {
           AppRoutes.HOME: (_) => TransactionList(),
           AppRoutes.TRANSACTION_FORM: (_) => TransactionForm(),
         },
+        home: SplashScreenWidget(),
       ),
     );
   }

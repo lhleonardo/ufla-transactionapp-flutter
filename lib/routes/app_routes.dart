@@ -1,4 +1,5 @@
 class AppRoutes {
-  static const HOME = '/';
+  static const LOADING = '/loading';
+  static const HOME = '/transaction-list';
   static const TRANSACTION_FORM = '/transaction-form';
 }

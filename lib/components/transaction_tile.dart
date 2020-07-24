@@ -7,6 +7,13 @@ class TransactionTile extends StatelessWidget {
   final Transaction transaction;
   const TransactionTile(this.transaction);
 
+  void _openTransaction(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.TRANSACTION_FORM,
+      arguments: transaction,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final formatter = NumberFormat.currency(
@@ -18,6 +25,7 @@ class TransactionTile extends StatelessWidget {
         foregroundColor: Colors.white,
         child: Text(transaction.type),
       ),
+      onTap: () => _openTransaction(context),
       title: Text(
         transaction.to.owner,
         style: TextStyle(
@@ -41,12 +49,7 @@ class TransactionTile extends StatelessWidget {
             IconButton(
               color: Color.fromRGBO(84, 88, 94, 1),
               icon: Icon(Icons.chevron_right),
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  AppRoutes.TRANSACTION_FORM,
-                  arguments: transaction,
-                );
-              },
+              onPressed: () => _openTransaction(context),
             ),
           ],
         ),
