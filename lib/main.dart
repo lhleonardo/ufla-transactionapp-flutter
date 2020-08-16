@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'package:start/view/drafts/draft_form.dart';
+import 'package:start/view/home.dart';
+
 import 'package:start/view/splash_screen.dart';
-import 'package:start/view/transactions_list.dart';
-import 'package:start/view/transactions_form.dart';
-import 'package:start/provider/transactions.dart';
+import 'package:start/view/transactions/transactions_form.dart';
 import 'package:start/routes/app_routes.dart';
 
 void main() {
@@ -14,25 +13,18 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => Transactions(),
-        )
-      ],
-      child: MaterialApp(
-        title: 'Comprovantes',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        routes: {
-          AppRoutes.HOME: (_) => TransactionList(),
-          AppRoutes.TRANSACTION_FORM: (_) => TransactionForm(),
-        },
-        home: SplashScreenWidget(),
+    return MaterialApp(
+      title: 'Comprovantes',
+      // debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
       ),
+      routes: {
+        AppRoutes.HOME: (_) => HomePage(),
+        AppRoutes.TRANSACTION_FORM: (_) => TransactionForm(),
+        AppRoutes.DRAFT_FORM: (_) => DraftForm(),
+      },
+      home: SplashScreenWidget(),
     );
   }
 }

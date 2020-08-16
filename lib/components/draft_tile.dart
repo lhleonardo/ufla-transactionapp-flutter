@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:start/models/transaction.dart';
+import 'package:start/models/draft.dart';
 import 'package:start/routes/app_routes.dart';
 
-class TransactionTile extends StatelessWidget {
-  final Transaction transaction;
-  const TransactionTile(this.transaction);
+class DraftTile extends StatelessWidget {
+  final Draft draft;
+  const DraftTile(this.draft);
 
-  void _openTransaction(BuildContext context) {
+  void _openDraft(BuildContext context) {
     Navigator.of(context).pushNamed(
-      AppRoutes.TRANSACTION_FORM,
-      arguments: transaction,
+      AppRoutes.DRAFT_FORM,
+      arguments: draft,
     );
   }
 
@@ -23,19 +23,18 @@ class TransactionTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         foregroundColor: Colors.white,
-        child: Text(transaction.type),
-        // child: Icon(Icons.drafts),
+        child: Icon(Icons.drafts),
       ),
-      onTap: () => _openTransaction(context),
+      onTap: () => _openDraft(context),
       title: Text(
-        transaction.to.owner,
+        draft.receiver,
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
       ),
       subtitle: Text(
-        formatter.format(transaction.value),
+        formatter.format(draft.value),
         style: TextStyle(
           fontSize: 12,
           fontStyle: FontStyle.italic,
@@ -50,7 +49,7 @@ class TransactionTile extends StatelessWidget {
             IconButton(
               color: Color.fromRGBO(84, 88, 94, 1),
               icon: Icon(Icons.chevron_right),
-              onPressed: () => _openTransaction(context),
+              onPressed: () => _openDraft(context),
             ),
           ],
         ),

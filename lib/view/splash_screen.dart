@@ -5,6 +5,7 @@ import 'package:start/routes/app_routes.dart';
 class SplashScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool authenticated = true;
     return Stack(
       children: <Widget>[
         SplashScreen(
@@ -18,7 +19,8 @@ class SplashScreenWidget extends StatelessWidget {
             ],
           ),
           // navigateAfterSeconds: _generateProvider(),
-          navigateAfterSeconds: AppRoutes.HOME,
+          navigateAfterSeconds:
+              authenticated ? AppRoutes.HOME : AppRoutes.LOGIN,
           loaderColor: Colors.transparent,
         ),
         Container(

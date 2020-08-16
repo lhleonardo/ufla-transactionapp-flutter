@@ -31,7 +31,6 @@ class Transactions with ChangeNotifier {
       _items.putIfAbsent(
         id,
         () => Transaction(
-          from: transaction.from,
           to: transaction.to,
           value: transaction.value,
           date: transaction.date,

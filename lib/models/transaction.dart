@@ -7,7 +7,6 @@ class Transaction {
 
   final String description;
 
-  final Account from;
   final Account to;
   final double value;
 
@@ -17,7 +16,6 @@ class Transaction {
     this.id,
     this.description,
     @required this.type,
-    @required this.from,
     @required this.to,
     @required this.value,
     this.date,

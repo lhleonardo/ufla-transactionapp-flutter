@@ -5,11 +5,6 @@ var transactions = {
   '12111429-6808-46bf-b700-68352cef54dd': Transaction(
     id: '12111429-6808-46bf-b700-68352cef54dd',
     type: 'TED',
-    from: Account(
-      agency: '5075-x',
-      account: '3989-6',
-      owner: 'Leonardo Braz',
-    ),
     to: Account(
       agency: '1437',
       account: '3239-5',
@@ -22,11 +17,6 @@ var transactions = {
   '4e93cc3a-d02a-4b02-93cc-3bcedbdc8d08': Transaction(
     id: '4e93cc3a-d02a-4b02-93cc-3bcedbdc8d08',
     type: 'DOC',
-    from: Account(
-      agency: '5075-x',
-      account: '3989-6',
-      owner: 'Leonardo Braz',
-    ),
     to: Account(
       agency: '4268',
       account: '13566-2',
@@ -39,11 +29,6 @@ var transactions = {
   'f89bdfa6-4e47-4950-ab77-8309ce496c66': Transaction(
     id: 'f89bdfa6-4e47-4950-ab77-8309ce496c66',
     type: 'TED',
-    from: Account(
-      agency: '5075-x',
-      account: '3989-6',
-      owner: 'Leonardo Braz',
-    ),
     to: Account(
       agency: '1890',
       account: '13544-2',

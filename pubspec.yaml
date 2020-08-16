@@ -18,6 +18,7 @@ dependencies:
   uuid: 2.2.0
   splashscreen:
   cloud_firestore:
+  flutter_speed_dial:
 
 dev_dependencies:
   flutter_test:
