@@ -29,22 +29,25 @@ class DraftList extends StatelessWidget {
             );
 
           default:
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (ctx, i) {
-                var current = snapshot.data.documents[i];
-                print(current.data);
-                return DraftTile(
-                  Draft(
-                    id: current.documentID,
-                    value: current['value'].toDouble(),
-                    description: current['description'],
-                    receiver: current['receiver'],
-                    date: (current['date'] as Timestamp).toDate(),
-                  ),
-                );
-              },
-            );
+            return snapshot.data.documents.length == 0
+                ? Center(
+                    child: Text("Nenhum cheque foi cadastrado."),
+                  )
+                : ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (ctx, i) {
+                      var current = snapshot.data.documents[i];
+                      return DraftTile(
+                        Draft(
+                          id: current.documentID,
+                          value: current['value'].toDouble(),
+                          description: current['description'],
+                          receiver: current['receiver'],
+                          date: (current['date'] as Timestamp).toDate(),
+                        ),
+                      );
+                    },
+                  );
         }
       },
     );

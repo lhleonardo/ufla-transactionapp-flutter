@@ -318,7 +318,6 @@ class _TransactionFormState extends State<TransactionForm> {
                         onChanged: (String value) {
                           setState(() {
                             _selectedType = value;
-                            print(_selectedType + ' ' + value);
                           });
                         },
                       ),
@@ -331,7 +330,6 @@ class _TransactionFormState extends State<TransactionForm> {
                         onChanged: (String value) {
                           setState(() {
                             _selectedType = value;
-                            print(_selectedType + ' ' + value);
                           });
                         },
                       ),
