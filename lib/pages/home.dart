@@ -1,23 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:provider/provider.dart';
+import 'package:start/models/user.dart';
 import 'package:start/routes/app_routes.dart';
-import 'package:start/view/transactions/transactions_list.dart';
+import 'package:start/pages/transactions/transactions_list.dart';
+import 'package:start/services/auth.dart';
 
 import 'drafts/draft_list.dart';
 
 class HomePage extends StatelessWidget {
+  final _auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context);
     return DefaultTabController(
       length: choices.length,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           title: const Text('FinancesApp'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.power_settings_new),
+              onPressed: () async {
+                bool response = await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => AlertDialog(
+                    title: Text("Confirmação"),
+                    content: Text("Você deseja realmente sair, ${user.name}?"),
+                    elevation: 24.0,
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text("Sim"),
+                      ),
+                      FlatButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text("Não"),
+                      )
+                    ],
+                  ),
+                );
+                if (response) {
+                  _auth.signOut();
+                }
+              },
+            )
+          ],
           bottom: TabBar(
             labelColor: Colors.deepPurple,
             unselectedLabelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorSize: TabBarIndicatorSize.label,
             indicator: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
@@ -27,8 +63,11 @@ class HomePage extends StatelessWidget {
             ),
             isScrollable: true,
             tabs: choices.map((Choice choice) {
-              return Tab(
-                text: choice.title,
+              return Container(
+                width: MediaQuery.of(context).size.width / choices.length,
+                child: Tab(
+                  text: choice.title,
+                ),
               );
             }).toList(),
           ),

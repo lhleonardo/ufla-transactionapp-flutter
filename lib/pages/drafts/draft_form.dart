@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:start/models/draft.dart';
+import 'package:start/models/user.dart';
 
 class DraftForm extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class _DraftFormState extends State<DraftForm> {
   final _formatter = DateFormat('dd/MM/yyyy');
   final _form = GlobalKey<FormState>();
   final Map<String, Object> _values = {};
+
+  User _user;
 
   final _dateController = TextEditingController();
   Draft _openDraft;
@@ -65,18 +69,12 @@ class _DraftFormState extends State<DraftForm> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final Draft transaction = ModalRoute.of(context).settings.arguments;
-    _prepareFormData(transaction);
-  }
-
   void _save() async {
     Map<String, Object> data = {
       'description': _values['description'],
       'value': _values['value'],
       'date': _values['date'],
+      'owner': _user.uid,
       'receiver': _values['receiver']
     };
     if (_values.containsKey('id')) {
@@ -96,6 +94,15 @@ class _DraftFormState extends State<DraftForm> {
         .collection('drafts')
         .document(_values['id'])
         .delete();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Draft transaction = ModalRoute.of(context).settings.arguments;
+    _prepareFormData(transaction);
+
+    _user = Provider.of<User>(context);
   }
 
   @override

@@ -18,7 +18,9 @@ dependencies:
   uuid: 2.2.0
   splashscreen:
   cloud_firestore:
+  firebase_auth:
   flutter_speed_dial:
+  progress_dialog:
 
 dev_dependencies:
   flutter_test:

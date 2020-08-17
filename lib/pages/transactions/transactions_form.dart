@@ -1,9 +1,9 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:start/models/transaction.dart' as TransactionModel;
+import 'package:start/models/user.dart';
 
 class TransactionForm extends StatefulWidget {
   @override
@@ -20,6 +20,8 @@ class _TransactionFormState extends State<TransactionForm> {
   final Map<String, Object> _values = {};
 
   final _dateController = TextEditingController();
+
+  User _user;
 
   TransactionModel.Transaction _openTransaction;
 
@@ -81,20 +83,13 @@ class _TransactionFormState extends State<TransactionForm> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final TransactionModel.Transaction transaction =
-        ModalRoute.of(context).settings.arguments;
-    _prepareFormData(transaction);
-  }
-
   void _save() async {
     Map<String, Object> data = {
       'description': _values['description'],
       'value': _values['value'],
       'date': _values['date'],
       'type': _selectedType,
+      'owner': _user.uid,
       'to': {
         'agency': _values['to.agency'],
         'account': _values['to.account'],
@@ -118,6 +113,16 @@ class _TransactionFormState extends State<TransactionForm> {
         .collection('transactions')
         .document(_values['id'])
         .delete();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final TransactionModel.Transaction transaction =
+        ModalRoute.of(context).settings.arguments;
+    _prepareFormData(transaction);
+
+    _user = Provider.of<User>(context);
   }
 
   @override

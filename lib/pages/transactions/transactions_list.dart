@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:start/components/transaction_tile.dart';
 import 'package:start/models/account.dart';
 import 'package:start/models/transaction.dart' as TransactionModel;
+import 'package:start/models/user.dart';
 
 class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('transactions').snapshots(),
+      stream: Firestore.instance
+          .collection('transactions')
+          .where('owner', isEqualTo: user.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError)
           return Center(

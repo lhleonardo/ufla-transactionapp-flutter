@@ -1,13 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:start/components/draft_tile.dart';
 import 'package:start/models/draft.dart';
+import 'package:start/models/user.dart';
 
 class DraftList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('drafts').snapshots(),
+      stream: Firestore.instance
+          .collection('drafts')
+          .where('owner', isEqualTo: user.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError)
           return Center(
